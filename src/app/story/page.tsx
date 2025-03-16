@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+// import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { Header } from "@/components/wiki/Header";
 import { Footer } from "@/components/wiki/Footer";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -15,7 +16,10 @@ export default function StoryPage() {
   const [selectedComic, setSelectedComic] = useState<ComicItem | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const comics = allComics[activeTab as keyof typeof allComics] || [];
+  // const comics = allComics[activeTab as keyof typeof allComics] || [];
+  const comics = useMemo(() => {
+    return allComics[activeTab as keyof typeof allComics] || [];
+  }, [activeTab]);
 
   const openModal = (comic: ComicItem) => {
     setSelectedComic(comic);

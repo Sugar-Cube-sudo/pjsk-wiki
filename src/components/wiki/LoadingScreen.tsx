@@ -11,7 +11,23 @@ interface LoadingScreenProps {
 export function LoadingScreen({ finishLoading }: LoadingScreenProps) {
   const [progress, setProgress] = useState(0);
   const [showInitialAnimation, setShowInitialAnimation] = useState(true);
+  const [loadingText, setLoadingText] = useState("Loading");
 
+  // 文本动画效果
+  useEffect(() => {
+    const textAnimation = setInterval(() => {
+      setLoadingText((prev) => {
+        if (prev === "Loading...") return "Loading";
+        if (prev === "Loading..") return "Loading...";
+        if (prev === "Loading.") return "Loading..";
+        return "Loading.";
+      });
+    }, 400);
+
+    return () => clearInterval(textAnimation);
+  }, []);
+
+  // 初始动画控制
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowInitialAnimation(false);
@@ -20,23 +36,19 @@ export function LoadingScreen({ finishLoading }: LoadingScreenProps) {
     return () => clearTimeout(timer);
   }, []);
 
+  // 加载进度控制
   useEffect(() => {
     let interval: NodeJS.Timeout;
 
     if (!showInitialAnimation) {
-      // 模拟加载进度
       interval = setInterval(() => {
-        setProgress((prevProgress) => {
-          const newProgress = prevProgress + Math.random() * 15;
-
+        setProgress((prev) => {
+          const newProgress = prev + Math.random() * 15;
           if (newProgress >= 100) {
             clearInterval(interval);
-            setTimeout(() => {
-              finishLoading();
-            }, 800);
+            setTimeout(finishLoading, 800);
             return 100;
           }
-
           return newProgress;
         });
       }, 250);
@@ -64,13 +76,14 @@ export function LoadingScreen({ finishLoading }: LoadingScreenProps) {
               transition={{ duration: 0.6, ease: "easeOut" }}
               className="flex justify-center items-center"
             >
-              <div className="relative w-32 h-32 mt-10">
+              <div className="relative w-48 h-48 mt-10">
                 <Image
-                  src="/logo.png"
-                  alt="Project Sekai Capture Wiki 徽标"
-                  width={128}
-                  height={128}
+                  src="/img/logo.png"
+                  alt="Project Sekai Capture Wiki"
+                  width={192}
+                  height={192}
                   className="object-contain translate-y-10"
+                  priority
                 />
                 <motion.div
                   className="absolute inset-0 flex items-center justify-center"
@@ -83,7 +96,7 @@ export function LoadingScreen({ finishLoading }: LoadingScreenProps) {
                     scale: { duration: 2, ease: "easeInOut", repeat: Infinity }
                   }}
                 >
-                  <div className="w-full h-full rounded-full border-t-4 border-l-4 border-r-4 border-transparent border-t-[#58c7d5] border-l-[#daa2a8] border-r-[#cca65c] opacity-75"></div>
+                  <div className="w-full h-full rounded-full border-t-4 border-l-4 border-r-4 border-transparent border-t-[#58c7d5] border-l-[#daa2a8] border-r-[#cca65c] opacity-75" />
                 </motion.div>
               </div>
             </motion.div>
@@ -95,8 +108,12 @@ export function LoadingScreen({ finishLoading }: LoadingScreenProps) {
               className="px-6"
             >
               <div className="text-center mb-4">
-                <h2 className="text-xl font-bold text-[#446398] dark:text-[#95b8cc] mb-1">プロジェクトセカイ攻略Wiki</h2>
-                <p className="text-sm text-gray-600 dark:text-gray-300">ロード中...</p>
+                <h2 className="text-xl font-bold text-[#446398] dark:text-[#95b8cc] mb-1">
+                  プロジェクトセカイ攻略Wiki
+                </h2>
+                <p className="text-sm text-gray-600 dark:text-gray-300">
+                  {loadingText} <span className="text-xs">({Math.round(progress)}%)</span>
+                </p>
               </div>
 
               <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 mb-2 overflow-hidden">
@@ -108,9 +125,29 @@ export function LoadingScreen({ finishLoading }: LoadingScreenProps) {
                 />
               </div>
 
-              <div className="flex justify-between items-center text-xs text-gray-500 dark:text-gray-400">
-                <span>読み込み中</span>
-                <span>{Math.round(progress)}%</span>
+              <div className="flex justify-center space-x-2 mt-4">
+                {[...Array(3)].map((_, i) => (
+                  <motion.div
+                    key={i}
+                    className="h-2 w-2 rounded-full"
+                    style={{
+                      backgroundColor: [
+                        "#58c7d5",
+                        "#cca65c",
+                        "#daa2a8"
+                      ][i]
+                    }}
+                    animate={{
+                      scale: [1, 1.5, 1],
+                      opacity: [0.7, 1, 0.7]
+                    }}
+                    transition={{
+                      duration: 1,
+                      repeat: Infinity,
+                      delay: i * 0.2
+                    }}
+                  />
+                ))}
               </div>
             </motion.div>
           )}
@@ -127,71 +164,37 @@ export function LoadingScreen({ finishLoading }: LoadingScreenProps) {
           </motion.div>
         </div>
 
-        {/* 装饰元素 */}
+        {/* 装饰星星 */}
         <motion.div
           className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1 }}
         >
-          {/* 左上角星星 */}
-          <motion.div
-            className="absolute top-[15%] left-[10%] w-3 h-3 bg-[#cca65c] rounded-full"
-            animate={{
-              scale: [1, 1.5, 1],
-              opacity: [0.6, 1, 0.6]
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          />
-
-          {/* 右上角星星 */}
-          <motion.div
-            className="absolute top-[20%] right-[15%] w-4 h-4 bg-[#daa2a8] rounded-full"
-            animate={{
-              scale: [1, 1.5, 1],
-              opacity: [0.6, 1, 0.6]
-            }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: 0.5
-            }}
-          />
-
-          {/* 左下角星星 */}
-          <motion.div
-            className="absolute bottom-[25%] left-[20%] w-5 h-5 bg-[#58c7d5] rounded-full"
-            animate={{
-              scale: [1, 1.5, 1],
-              opacity: [0.6, 1, 0.6]
-            }}
-            transition={{
-              duration: 2.5,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: 1
-            }}
-          />
-
-          {/* 右下角星星 */}
-          <motion.div
-            className="absolute bottom-[15%] right-[10%] w-3 h-3 bg-[#cca65c] rounded-full"
-            animate={{
-              scale: [1, 1.5, 1],
-              opacity: [0.7, 1, 0.7]
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: 1.5
-            }}
-          />
+          {[...Array(4)].map((_, i) => (
+            <motion.div
+              key={i}
+              className={`absolute w-3 h-3 rounded-full ${
+                ["#cca65c", "#daa2a8", "#58c7d5", "#cca65c"][i]
+              }`}
+              style={{
+                top: ["15%", "20%", "75%", "85%"][i],
+                left: i % 2 ? undefined : "10%",
+                right: i % 2 ? "15%" : undefined,
+                width: i === 1 ? 16 : 12,
+                height: i === 1 ? 16 : 12
+              }}
+              animate={{
+                scale: [1, 1.5, 1],
+                opacity: [0.6, 1, 0.6]
+              }}
+              transition={{
+                duration: [2, 3, 2.5, 2][i],
+                repeat: Infinity,
+                delay: [0, 0.5, 1, 1.5][i]
+              }}
+            />
+          ))}
         </motion.div>
       </motion.div>
     </AnimatePresence>

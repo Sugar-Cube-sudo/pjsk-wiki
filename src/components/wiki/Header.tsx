@@ -18,13 +18,18 @@ export function Header() {
             href="/"
             className="flex items-center gap-3 flex-shrink-0 hover:opacity-90 transition-opacity"
           >
-            <div className="relative w-16 h-16">
+            <div className="relative w-16 h-16"style={{ width: '210.53px', height: '94.73px'}}>
               <Image
-                src="/logo.png"
+                src="/img/logo.png"
                 alt="プロジェクトセカイ攻略Wiki"
-                width={64}
-                height={64}
+                width={200}
+                height={50}
                 className="object-contain p-1"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain'
+                }}
                 priority
               />
             </div>
