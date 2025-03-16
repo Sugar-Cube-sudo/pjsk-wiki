@@ -119,14 +119,14 @@ export default function StoryPage() {
                     value="special"
                     className="data-[state=active]:bg-[#58c7d5] data-[state=active]:text-white dark:data-[state=active]:bg-[#295b6a]"
                   >
-                    特別企画
+                    Promotional
                   </TabsTrigger>
-                  <TabsTrigger
+                  {/* <TabsTrigger
                     value="character"
                     className="data-[state=active]:bg-[#58c7d5] data-[state=active]:text-white dark:data-[state=active]:bg-[#295b6a]"
                   >
                     キャラクター別
-                  </TabsTrigger>
+                  </TabsTrigger> */}
                 </TabsList>
 
                 <TabsContent value="1koma" className="m-0">
@@ -141,9 +141,9 @@ export default function StoryPage() {
                   <ComicGrid comics={allComics["special"]} onComicClick={openModal} />
                 </TabsContent>
 
-                <TabsContent value="character" className="m-0">
+                {/* <TabsContent value="character" className="m-0">
                   <ComicGrid comics={allComics["character"]} onComicClick={openModal} />
-                </TabsContent>
+                </TabsContent> */}
               </Tabs>
             </CardContent>
           </Card>

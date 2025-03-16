@@ -1,7 +1,7 @@
-import "@/app/globals.css";
+import "./globals.css";
 import type { Metadata } from "next";
-import { ThemeProvider } from "@/components/theme-provider";
-import { ClientBody } from "@/app/ClientBody";
+import { ThemeProvider } from "next-themes"; // 使用正确库的ThemeProvider
+import { ClientBody } from "@/app/ClientBody"; // 注意这里是具名导入
 
 export const metadata: Metadata = {
   title: "プロジェクトセカイ攻略Wiki",

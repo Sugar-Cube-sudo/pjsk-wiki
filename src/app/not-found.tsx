@@ -133,8 +133,10 @@ export default function NotFound() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.9, duration: 0.5 }}
             >
-              お探しのページは見つかりませんでした。
-              ページが移動または削除された可能性があります。
+              {/* お探しのページは見つかりませんでした。
+              ページが移動または削除された可能性があります。 */}
+              現在は初期開発版です。このページはまだ完成していないため、404が表示されます
+              [v0.1.0]
             </motion.p>
             
             <motion.div

@@ -67,7 +67,7 @@ export function LoadingScreen({ finishLoading }: LoadingScreenProps) {
               <div className="relative w-32 h-32 mt-10">
                 <Image
                   src="/logo.png"
-                  alt="プロジェクトセカイ攻略Wiki Logo"
+                  alt="Project Sekai Capture Wiki 徽标"
                   width={128}
                   height={128}
                   className="object-contain translate-y-10"

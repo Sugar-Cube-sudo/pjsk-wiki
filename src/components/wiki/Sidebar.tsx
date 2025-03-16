@@ -24,7 +24,7 @@ const categories: Category[] = [
     icon: "📱",
     items: [
       { title: "システム", url: "/system" },
-      { title: "ストーリー", url: "/story" },
+      { title: "マンガ", url: "/story" },
       { title: "キャラクター", url: "/characters" },
       { title: "ユニット", url: "/units" }
     ]
