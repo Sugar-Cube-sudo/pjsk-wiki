@@ -66,11 +66,12 @@ export function LoadingScreen({ finishLoading }: LoadingScreenProps) {
             >
               <div className="relative w-32 h-32 mt-10">
                 <Image
-                  src="/logo.png"
-                  alt="Project Sekai Capture Wiki 徽标"
+                  src="/img/logo.png"
+                  alt="Project Sekai Capture Wiki"
                   width={128}
                   height={128}
                   className="object-contain translate-y-10"
+                  priority
                 />
                 <motion.div
                   className="absolute inset-0 flex items-center justify-center"
