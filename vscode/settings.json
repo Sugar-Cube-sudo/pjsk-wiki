@@ -1,0 +1,7 @@
+{
+    "css.customData": [".vscode/tailwind.css-data.json"],
+    "tailwindCSS.experimental.configFile": "./tailwind.config.ts",
+    "editor.quickSuggestions": {
+      "strings": true
+    }
+  }
