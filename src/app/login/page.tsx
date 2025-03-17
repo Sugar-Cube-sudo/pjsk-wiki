@@ -8,20 +8,60 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Header } from "@/components/wiki/Header";
 import { Footer } from "@/components/wiki/Footer";
+// import router from "next/router";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-
-    // Simulate API call
-    setTimeout(() => {
+  
+    const formData = {
+      username: (e.currentTarget as HTMLFormElement).username.value,
+      password: (e.currentTarget as HTMLFormElement).password.value,
+      email: !isLogin ? (e.currentTarget as HTMLFormElement).email?.value : undefined
+    };
+  
+    try {
+      // 注册逻辑
+      if (!isLogin) {
+        const registerResponse = await fetch('/api/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData)
+        });
+  
+        if (!registerResponse.ok) {
+          throw new Error((await registerResponse.json()).message);
+        }
+      }
+  
+      // 登录逻辑
+      const loginResponse = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: formData.username,
+          password: formData.password
+        })
+      });
+  
+      if (loginResponse.ok) {
+        router.push('/');
+      } else {
+        throw new Error((await loginResponse.json()).message);
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(error.message);
+      }
+    } finally {
       setIsLoading(false);
-      // In a real application, you would handle login/register logic here
-    }, 1500);
+    }
   };
 
   return (

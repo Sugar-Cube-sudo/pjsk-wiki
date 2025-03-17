@@ -1,9 +1,13 @@
-// next.config.js
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   productionBrowserSourceMaps: true,
   trailingSlash: false,
+
+  // 添加环境变量配置
+  env: {
+    JWT_SECRET: 'your_secure_secret_here'
+  },
 
   images: {
     remotePatterns: [
@@ -38,7 +42,7 @@ const nextConfig = {
         pathname: '/**'
       }
     ],
-    formats: ['image/avif', 'image/webp'], // ✅ 合法配置
+    formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL: 3600 * 24 * 7,
